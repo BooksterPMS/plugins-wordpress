@@ -23,7 +23,7 @@ class Bookster_widget extends WP_Widget {
             array( 'description' => __( 'Sample widget based on WPBeginner Tutorial', 'wpb_widget_domain' ), )
         );
     }
-    
+    // <?php
     // Creating widget front-end 
     public function widget( $args, $instance ) {
         $title = apply_filters( 'widget_title', $instance['title'] );
@@ -31,7 +31,7 @@ class Bookster_widget extends WP_Widget {
         $bookster_id = 0;
         if (!empty($instance['bookster_id']))
              $bookster_id = (int)$instance['bookster_id'];
-$bookster_id=32246;
+
         if (empty($bookster_id))
             return;
      
@@ -42,10 +42,23 @@ $bookster_id=32246;
         
      
         // This is where you run the code and display the output
+        $dom_id = 'bookster-calendar-widget-'.$bookster_id;
+        $params = [
+            'id' => $dom_id,
+            'property' => $bookster_id,
+            'syndicate' => 67,
+            'theme' => (object)[
+                ],
+            ];
         ?>
-            <script>(function(w,d,a){var b=(w.bookster=w.bookster||[]);b.push({calendar:a});var h=d.getElementsByTagName('head')[0];var j=d.createElement('script');j.type='text/javascript';j.async=true;j.src='https://cdn.booksterhq.com/widgets/v1/calendar.js';h.appendChild(j)})(window,document,{id:'bookster-calendar-widget-<?= $bookster_id ?>',property:<?= $bookster_id ?>,syndicate:67,theme:{}})</script>
 
-            <div id="bookster-calendar-widget-<?= $bookster_id ?>" style="height:430px;"></div>
+
+        <div id="<?= $dom_id ?>" style="height:430px;"></div>
+
+        <script>(function(w,d){var b=(w.bookster=w.bookster||[]);var h=d.getElementsByTagName('head')[0];var j=d.createElement('script');j.async=true;j.src='https://cdn.booksterhq.com/widgets/v1/calendar.js';h.appendChild(j)})(window,document)</script>
+
+        <script>bookster.push({calendar: <?= json_encode($params) ?>});</script>
+
         <?php
         echo $args['after_widget'];
     }
@@ -56,7 +69,14 @@ $bookster_id=32246;
             $title = $instance[ 'title' ];
         }
         else {
-            $title = __( 'New title3', 'wpb_widget_domain' );
+            $title = __( 'Title', 'wpb_widget_domain' );
+        }
+
+        if (isset($instance['bookster_id'])) {
+            $bookster_id = $instance['bookster_id'];
+        }
+        else {
+            $bookster_id = __('Bookster ID', 'wpb_widget_domain');
         }
         // Widget admin form
         ?>
@@ -66,7 +86,7 @@ $bookster_id=32246;
             </p>
             <p>
                 <label for="<?php echo $this->get_field_id( 'bookster_id' ); ?>"><?php _e( 'bookster_id:' ); ?></label>
-                <input class="widefat" id="<?php echo $this->get_field_id( 'bookster_id' ); ?>" name="<?php echo $this->get_field_name( 'bookster_id' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+                <input class="widefat" id="<?php echo $this->get_field_id( 'bookster_id' ); ?>" name="<?php echo $this->get_field_name( 'bookster_id' ); ?>" type="text" value="<?php echo esc_attr( $bookster_id ); ?>" />
             </p>
         <?php
     }
