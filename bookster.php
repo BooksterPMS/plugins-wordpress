@@ -42,12 +42,9 @@ class Bookster_widget extends WP_Widget {
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
         if ( ! empty( $title ) )
-        echo $args['before_title'] . $title . $args['after_title'];
+            echo $args['before_title'] . $title . $args['after_title'];
 
-        echo $args['before_widget'];
-        if (!empty($colour))
-            echo $args['before_colour'] . $colour . $args['after_colour'];
-
+        
         // This is where you run the code and display the output
         $dom_id = 'bookster-calendar-widget-'.$bookster_id;
         $params = [
