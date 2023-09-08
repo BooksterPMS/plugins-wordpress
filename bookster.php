@@ -30,17 +30,24 @@ class Bookster_widget extends WP_Widget {
 
         $bookster_id = 0;
         if (!empty($instance['bookster_id']))
-             $bookster_id = (int)$instance['bookster_id'];
+            $bookster_id = (int)$instance['bookster_id'];
 
         if (empty($bookster_id))
             return;
-     
+
+        $colour = '';
+        if (!empty($instance['colour']))
+            $colour = $instance['colour'];
+        
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
         if ( ! empty( $title ) )
         echo $args['before_title'] . $title . $args['after_title'];
-        
-     
+
+        echo $args['before_widget'];
+        if (!empty($colour))
+            echo $args['before_colour'] . $colour . $args['after_colour'];
+
         // This is where you run the code and display the output
         $dom_id = 'bookster-calendar-widget-'.$bookster_id;
         $params = [
@@ -48,6 +55,8 @@ class Bookster_widget extends WP_Widget {
             'property' => $bookster_id,
             'syndicate' => 67,
             'theme' => (object)[
+                    'background' => $colour,
+                    
                 ],
             ];
         ?>
@@ -78,6 +87,13 @@ class Bookster_widget extends WP_Widget {
         else {
             $bookster_id = __('Bookster ID', 'wpb_widget_domain');
         }
+
+        if (isset($instance['colour'])) {
+            $colour = $instance['colour'];
+        }
+        else {
+            $colour = __('Colour', 'wpb_widget_domain');
+        }
         // Widget admin form
         ?>
             <p>
@@ -85,8 +101,12 @@ class Bookster_widget extends WP_Widget {
                 <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
             </p>
             <p>
-                <label for="<?php echo $this->get_field_id( 'bookster_id' ); ?>"><?php _e( 'bookster_id:' ); ?></label>
+                <label for="<?php echo $this->get_field_id( 'bookster_id' ); ?>"><?php _e( 'Bookster ID:' ); ?></label>
                 <input class="widefat" id="<?php echo $this->get_field_id( 'bookster_id' ); ?>" name="<?php echo $this->get_field_name( 'bookster_id' ); ?>" type="text" value="<?php echo esc_attr( $bookster_id ); ?>" />
+            </p>
+            <p>
+                <label for="<?php echo $this->get_field_id( 'colour' ); ?>"><?php _e( 'Colour:' ); ?></label>
+                <input class="widefat" id="<?php echo $this->get_field_id( 'colour' ); ?>" name="<?php echo $this->get_field_name( 'colour' ); ?>" type="text" value="<?php echo esc_attr( $colour ); ?>" />
             </p>
         <?php
     }
@@ -96,6 +116,7 @@ class Bookster_widget extends WP_Widget {
         $instance = array();
         $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
         $instance['bookster_id'] = ( ! empty( $new_instance['bookster_id'] ) ) ? (int)$new_instance['bookster_id'] : '';
+        $instance['colour'] = (!empty($new_instance['colour'])) ? $new_instance['colour'] : '';
         return $instance;
     }
      
