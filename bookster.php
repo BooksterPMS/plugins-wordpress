@@ -20,13 +20,13 @@ class Bookster_widget extends WP_Widget {
             __('Bookster widget', 'wpb_widget_domain'), 
      
             // Widget description
-            array( 'description' => __( 'Sample widget based on WPBeginner Tutorial', 'wpb_widget_domain' ), )
+            array( 'description' => __( 'This plugin adds a bookster calendar widget to your wordpress website.', 'wpb_widget_domain' ), )
         );
     }
     // <?php
     // Creating widget front-end 
     public function widget( $args, $instance ) {
-        $title = apply_filters( 'widget_title', $instance['title'] );
+        $bookster_title = apply_filters( 'widget_title', $instance['title'] );
 
         $bookster_id = 0;
         if (!empty($instance['bookster_id']))
@@ -35,14 +35,14 @@ class Bookster_widget extends WP_Widget {
         if (empty($bookster_id))
             return;
 
-        $colour = '';
+        $bookster_bg_colour = '';
         if (!empty($instance['colour']))
-            $colour = $instance['colour'];
+            $bookster_bg_colour = $instance['colour'];
         
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
-        if ( ! empty( $title ) )
-            echo $args['before_title'] . $title . $args['after_title'];
+        if ( ! empty( $bookster_title ) )
+            echo $args['before_title'] . $bookster_title . $args['after_title'];
 
         
         // This is where you run the code and display the output
@@ -52,8 +52,7 @@ class Bookster_widget extends WP_Widget {
             'property' => $bookster_id,
             'syndicate' => 67,
             'theme' => (object)[
-                    'background' => $colour,
-                    
+                    'background' => $bookster_bg_colour,
                 ],
             ];
         ?>
@@ -72,10 +71,10 @@ class Bookster_widget extends WP_Widget {
     // Widget Backend
     public function form( $instance ) {
         if ( isset( $instance[ 'title' ] ) ) {
-            $title = $instance[ 'title' ];
+            $bookster_title = $instance[ 'title' ];
         }
         else {
-            $title = __( 'Title', 'wpb_widget_domain' );
+            $bookster_title = __( 'Title', 'wpb_widget_domain' );
         }
 
         if (isset($instance['bookster_id'])) {
@@ -86,16 +85,16 @@ class Bookster_widget extends WP_Widget {
         }
 
         if (isset($instance['colour'])) {
-            $colour = $instance['colour'];
+            $bookster_bg_colour = $instance['colour'];
         }
         else {
-            $colour = __('Colour', 'wpb_widget_domain');
+            $bookster_bg_colour = __('Colour', 'wpb_widget_domain');
         }
         // Widget admin form
         ?>
             <p>
                 <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-                <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
+                <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $bookster_title ); ?>" />
             </p>
             <p>
                 <label for="<?php echo $this->get_field_id( 'bookster_id' ); ?>"><?php _e( 'Bookster ID:' ); ?></label>
@@ -103,7 +102,7 @@ class Bookster_widget extends WP_Widget {
             </p>
             <p>
                 <label for="<?php echo $this->get_field_id( 'colour' ); ?>"><?php _e( 'Colour:' ); ?></label>
-                <input class="widefat" id="<?php echo $this->get_field_id( 'colour' ); ?>" name="<?php echo $this->get_field_name( 'colour' ); ?>" type="text" value="<?php echo esc_attr( $colour ); ?>" />
+                <input class="widefat" id="<?php echo $this->get_field_id( 'colour' ); ?>" name="<?php echo $this->get_field_name( 'colour' ); ?>" type="text" value="<?php echo esc_attr( $bookster_bg_colour ); ?>" />
             </p>
         <?php
     }
