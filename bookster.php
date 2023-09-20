@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Bookster Plugin
-Plugin URI: 
-Description: This plugin adds a bookster calendar widget.
+Plugin URI:
+Description: This plugin adds a Bookster calendar widget.
 Version: 1.0
 Author: Zoe Sztandke
-Author URI: 
+Author URI:
 License:
 */
 
@@ -14,17 +14,17 @@ class Bookster_widget extends WP_Widget {
     function __construct() {
         parent::__construct(
             // Base ID of your widget
-            'Bookster_widget', 
-    
+            'Bookster_widget',
+
             // Widget name will appear in UI
-            __('Bookster widget', 'wpb_widget_domain'), 
-     
+            __('Bookster widget', 'wpb_widget_domain'),
+
             // Widget description
             array( 'description' => __( 'This plugin adds a bookster calendar widget to your wordpress website.', 'wpb_widget_domain' ), )
         );
     }
     // <?php
-    // Creating widget front-end 
+    // Creating widget front-end
     public function widget( $args, $instance ) {
         $bookster_title = apply_filters( 'widget_title', $instance['title'] );
 
@@ -38,7 +38,7 @@ class Bookster_widget extends WP_Widget {
         $bookster_bg_colour = '';
         if (!empty($instance['bookster_bg_colour']))
             $bookster_bg_colour = $instance['bookster_bg_colour'];
-        
+
         // before and after widget arguments are defined by themes
         echo $args['before_widget'];
         if ( ! empty( $bookster_title ) )
@@ -69,7 +69,7 @@ class Bookster_widget extends WP_Widget {
         <?php
         echo $args['after_widget'];
     }
-     
+
     // Widget Backend
     public function form( $instance ) {
         if ( isset( $instance[ 'title' ] ) ) {
@@ -108,7 +108,7 @@ class Bookster_widget extends WP_Widget {
             </p>
         <?php
     }
-     
+
     // Updating widget replacing old instances with new
     public function update( $new_instance, $old_instance ) {
         $instance = array();
@@ -117,10 +117,10 @@ class Bookster_widget extends WP_Widget {
         $instance['bookster_bg_colour'] = (!empty($new_instance['bookster_bg_colour'])) ? $new_instance['bookster_bg_colour'] : '';
         return $instance;
     }
-     
+
     // Class Bookster_widget ends here
-} 
-     
+}
+
 // Register and load the widget
 function wpb_load_widget() {
     register_widget( 'Bookster_widget' );
